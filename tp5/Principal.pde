@@ -1,221 +1,113 @@
-class Principal{
- 
-  Nave nave;
-  //Pantallas pantallas;
-  Asteroides [] asteroides; //arreglo de dos tipos de asteroides (img diferentes)
-  Estrellas estrellas;//para estrellas 
+class Principal {
+
+  
+  Estrellas estrellas;
+  Juego juego; 
   String estado, condicion;
-  int intentos;
-  PImage logo, boton;
-  boolean colisionando;// si es true que solo quite una vida. no va el menos menos. 
-  int asteTope;
-  int intentosTope;
-  int astePase; // cuantos asteroides pasaron con el tope de 30
-  
- 
-  
-Principal(){
-  int cant = 3;
-  intentos = 2;
-  asteTope = 30;
-  intentosTope = 0;
-  asteroides = new Asteroides[cant];
-  estado = "inicio";
-  estado = "juego";
-  condicion = "ganaste";
-  condicion = "perdiste";
- estrellas = new Estrellas();
- nave = new Nave();
- //pantallas = new Pantallas();
- 
- logo = loadImage("logo.png");
-  
-  
-  //inicializar el array de asteroides
-  for(int i=0; i < asteroides.length; i++){
-    asteroides[i] = new Asteroides();
-  }
-  
-}
-  
-  
- void dibujar(){
-   //Para el fondo//
-   background(0);
-   estrellas.dibujar();
-   nave.moverNave();
-   textAlign(CENTER);
-   textSize(20);
-   text("Vida:" + intentos,60,50);
+  PImage logo, botonVolver, botonJugar, botonInstrucciones, imgCargando, imgGanaste, imgPerdiste, imgInstrucciones, imgCreditos;
 
-  //estado de inicio 
- /* if(estado.equals("inicio")){
-     background(0);
-     estrellas.dibujar();
-     image(logo, 200,300);
-     if(mouseX > 225 && mouseX < 225 + 150 && mouseY > 325 && mouseY < 325 + 50){
-       fill(#D1D1D1); 
-     }
-       else {
-         fill(#AFAFAF);
-       }
-       rect(225,325,50,50);
-       fill(#0726E8);
-       text("Jugar", 300,350);
-       
-  //para instrucciones
-      if(mouseX > 225 && mouseX < 225 + 150 && mouseY > 390 && mouseY < 390 + 50){
-      fill(#D1D1D1); 
-      }
-      else {
-      fill(#AFAFAF);
-      }
-       rect(225,390,50,50);
-       fill(#0726E8);
-       text("Instrucciones", 300,350);
-     }
-   // para acceder a las instrucciones
-     if(estado.equals("instrucciones")){
-       background(0);
-       estrellas.dibujar();
-       pushStyle();
-       fill(#D1D1D1);
-       textSize(50);
-       text("Instrucciones", 300,100);
-       text("Oh no! nuestra nave está pasando por un cordón de asteroides \n hay que ayudarlo a pasar los 30 asteroides para ganar",300,300);
-       popStyle();
-     }
-    // para acceder a ganaste
-    if(condicion.equals("ganaste")){
-    background(0);
+  Principal() {
+    //variables
+    estado = "inicio";
+    condicion = " ";
+    estrellas = new Estrellas();
+   
+    //imagenes
+    logo = loadImage("logo.png");
+    imgCargando = loadImage("cargando.png");
+    imgGanaste = loadImage("ganaste.png");
+    imgPerdiste = loadImage("perdiste.png");
+    imgInstrucciones = loadImage("instrucciones.png");
+    imgCreditos = loadImage("creditos.png");
+    botonVolver = loadImage("volver.png");
+    botonJugar = loadImage("jugar.png");
+    botonInstrucciones = loadImage("botonInstrucciones.png");
+
+    // sonido
+  }
+
+
+  void pantallas() {
     estrellas.dibujar();
-    textSize(100);
-    text("ganaste",300,300);
+    /*if(sonido(reemplaza variable).isPlaying()== false){ //para sonido  // aca reproducir el sonido
+     sonido.play();
+     sonido.loop();
+     sonido.jump(0.5); 
+     }*/
+
+
+    //estado de inicio 
+    if (estado.equals("inicio")) {
+      imageMode(CENTER);
+      image(logo, width/2, height/4, logo.width/3, logo.height/3);
+      //BOTON JUGAR
+      imageMode(CORNER);
+      image(botonJugar, 200, 325, botonJugar.width/12, botonJugar.height/12);
+      // BOTON INSTRUCCIONES
+      image(botonInstrucciones, 200, 410, botonInstrucciones.width/40, botonInstrucciones.height/40 );
     }
     
-    
-    //para acceder a perdiste
-    if(condicion.equals("perdiste")){
-    background(0);
-    estrellas.dibujar();
-    textSize(100);
-    text("perdiste",300,300);
-    }*/
-    
-     //pregunta de astetope
-  if( astePase >= asteTope){
-    println("ganaste"); //reemplazar por pantalla de ganaste 
-   // pantallas.ganar();
-    if(condicion.equals("ganaste")){
-    background(0);
-    estrellas.dibujar();
-    textSize(100);
-    text("ganaste",300,300);
+    // estado instrucciones
+    if (estado.equals("instrucciones")) {
+      //  background(0);
+      imageMode(CORNER);
+      image(imgInstrucciones, 0, 0, width, height);
     }
-  }
-  //pregunta de intentosTope
-   if(intentos<= intentosTope){
-     println("perdiste"); //reemplazar por perdiste
-    // pantallas.perder();
-     perder();
-     
-   }
-   
-   //para dibujar asteroides
-   for(int i = 0; i < asteroides.length; i++){
-     asteroides[i].dibujar();
-   }
-
- } 
-
-  void perder(){
-    if(condicion.equals("perdiste")){
-    background(0);
-    estrellas.dibujar();
-    textSize(100);
-    text("perdiste",300,300);
+    //estado juego
+    if (estado.equals("juego")) {
+      //  background(0);
+      juego.dibujar();
+      juego.colisiones();
+      juego.actualizar();
     }
-    
-    
-  }
- 
-/* void mousePressed(){
-   if(estado.equals("inicio") && mouseX > 225 && mouseX < 225 + 150 && mouseY > 325 && mouseY < 325 + 50 ){
-     estado = "Jugar";
-   }
-   if(estado.equals("inicio") && mouseX > 225 && mouseX < 225 + 150 && mouseY > 390 && mouseY < 390 + 50 ){
-    estado = "instrucciones";
-   }
- }
- 
- void condiciones(){
-   if(keyCode == ' '){
-     if(condicion.equals("perdiste") || condicion.equals("ganaste")){
-       reinicioInicio();
-     }
-     
-   }
-   
-   
- }
-   
-  void reinicioInicio(){
-   dibujar(); 
-    
-  }*/
-   
-  
 
- 
+    // estado ganaste
+    if (estado.equals("ganaste")) {
+      imageMode(CORNER);
+      image(imgGanaste, 0, 0, width, height);
+    }
 
- void colisiones(){
-     for(int i = 0; i < asteroides.length; i++){
-      if(dist(asteroides[i].posX,asteroides[i].posY, nave.PosX, nave.PosY) < 100 && colisionando == true){
-     // println("colision");
-      intentos--;
-      colisionando = false;
-      //println(intentos);
-      }
+
+    // estado perdiste
+    if (estado.equals("perdiste")) {
+      //  background(0);
+      imageMode(CORNER);
+      image(imgPerdiste, 0, 0, width, height);
+    }
+    //estado creditos
+    if (estado.equals("creditos")) {
+      imageMode(CORNER);
+      image(imgCreditos, 0, 0, width, height);
+      image(botonVolver, 200,480, botonVolver.width/12, botonVolver.height/12);
       
-      
-      }    
-     }
-   
- 
- void actualizar(){
-  for(int i = 0; i < asteroides.length; i++){
-    asteroides[i].update();
-  }
-   
- }
-
-
-
-
-class Estrellas{
-  float t;
-  
- Estrellas(){
-   t = 5;
- 
- }
-  void dibujar(){
-    
-   fill(0,10);
-   rect(0,0, width,height);
-   fill(255);
-   noStroke();
-   ellipse(random(width), random(height), t,t); 
+    }
   }
 
-}}
 
+  void interaccion() { // para acceder a los estados
+    if (estado.equals("inicio") && mouseX > 200 && mouseX < 200 + 150 && mouseY > 325 && mouseY < 325 + 50 ) {
+      estado = "juego";
+      //aca que este el sonido cuando hago click el boton
+      juego = new Juego();
+    }
+    if (estado.equals("inicio") && mouseX > 200 && mouseX < 200 + 150 && mouseY > 410 && mouseY < 410 + 50 ) {
+      estado = "instrucciones";
+    }
+      if (estado.equals("creditos") && mouseX > 200 && mouseX < 200 + 150 && mouseY > 480 && mouseY < 480 + 50 ) {
+      estado = "inicio";
+    }
+  }
 
+  void condiciones() { //reinicios o acceder a otros estados
+    if (keyCode == ' ') {
+      if (estado.equals("perdiste") || estado.equals("creditos") || estado.equals("instrucciones")) {
+         estado = "inicio";
+      }
+      if (estado.equals("ganaste")) {
+        estado = "creditos"; 
+      }
+    }
+  }
 
-
-// if(principal.estado.equals("inicio")){
+} 
    
-
-  
-//  if(principal.estado.equals("juego")){
-    
