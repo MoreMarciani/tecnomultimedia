@@ -14,8 +14,3 @@ void moverNave(){
   PosY = 520;
   
 }
-void colision(){
-  
-}
-  
-}
