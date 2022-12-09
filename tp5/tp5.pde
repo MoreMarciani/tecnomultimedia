@@ -1,29 +1,33 @@
 //https://youtu.be/RjjUhmxfViw
-
+import processing.sound.*;
+SoundFile choque, click, fondo;
 
 Principal principal;
-//Pantallas pantallas;
-String estado, condicion;
+
 
 void setup(){
   size(600,600);
-  //´para la logica de estados
-  estado = "inicio";
-  condicion = "ganar";
-  condicion = "perder";
   principal = new Principal();
- // pantallas = new Pantallas();
-  
-  
+  choque = new SoundFile(this, "choque.mp3");
+ click = new SoundFile(this, "click.mp3");
 }
 
 void draw(){
 
-  principal.dibujar();
-  principal.colisiones();
-//  pantallas.ganar();
-//  principal.pantallas();
-  
- //principal.principal
+  principal.pantallas();
 
+
+}
+
+void mouseClicked(){
+  principal.interaccion();
+ // click.play();
+ click.play();
+ 
+  
+}
+
+void keyPressed(){
+  principal.condiciones();
+ 
 }
