@@ -57,9 +57,8 @@ Juego(){
  void colisiones(){
      for(int i = 0; i < asteroides.length; i++){
       if(dist(asteroides[i].posX,asteroides[i].posY, nave.PosX, nave.PosY) < 100 && colisionando == true){
-      intentos--;
       choque.play();
-    // choque.play();
+      intentos--;
       colisionando = false;
       }
      }    
