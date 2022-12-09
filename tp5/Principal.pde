@@ -3,13 +3,12 @@ class Principal {
   
   Estrellas estrellas;
   Juego juego; 
-  String estado, condicion;
+  String estado;
   PImage logo, botonVolver, botonJugar, botonInstrucciones, imgCargando, imgGanaste, imgPerdiste, imgInstrucciones, imgCreditos;
 
   Principal() {
     //variables
     estado = "inicio";
-    condicion = " ";
     estrellas = new Estrellas();
    
     //imagenes
@@ -23,17 +22,15 @@ class Principal {
     botonJugar = loadImage("jugar.png");
     botonInstrucciones = loadImage("botonInstrucciones.png");
 
-    // sonido
+    
   }
 
 
   void pantallas() {
     estrellas.dibujar();
-    /*if(sonido(reemplaza variable).isPlaying()== false){ //para sonido  // aca reproducir el sonido
-     sonido.play();
-     sonido.loop();
-     sonido.jump(0.5); 
-     }*/
+    if(fondo.isPlaying()== false){ 
+     fondo.play(); 
+     }
 
 
     //estado de inicio 
@@ -86,21 +83,23 @@ class Principal {
 
   void interaccion() { // para acceder a los estados
     if (estado.equals("inicio") && mouseX > 200 && mouseX < 200 + 150 && mouseY > 325 && mouseY < 325 + 50 ) {
+      clic.jump(0.2);
       estado = "juego";
-      //aca que este el sonido cuando hago click el boton
       juego = new Juego();
     }
     if (estado.equals("inicio") && mouseX > 200 && mouseX < 200 + 150 && mouseY > 410 && mouseY < 410 + 50 ) {
+      clic.jump(0.2);
       estado = "instrucciones";
     }
       if (estado.equals("creditos") && mouseX > 200 && mouseX < 200 + 150 && mouseY > 480 && mouseY < 480 + 50 ) {
+        clic.jump(0.2);
       estado = "inicio";
     }
   }
 
   void condiciones() { //reinicios o acceder a otros estados
     if (keyCode == ' ') {
-      if (estado.equals("perdiste") || estado.equals("creditos") || estado.equals("instrucciones")) {
+      if (estado.equals("perdiste")  || estado.equals("instrucciones")) {
          estado = "inicio";
       }
       if (estado.equals("ganaste")) {
@@ -110,4 +109,3 @@ class Principal {
   }
 
 } 
-   
